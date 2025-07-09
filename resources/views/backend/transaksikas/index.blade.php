@@ -39,7 +39,7 @@
                                     <td>{{ $data->tanggal }}</td>
                                     <td>
                                         <a href="{{ route('backend.transaksikas.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a> |
-                                        <a href="{{ route('backend.transaksikas.destroy', $data->id) }}" class="btn btn-danger btn-sm" data-confirm-delete="true">Delete</a>
+                                        <a href="{{ route('backend.transaksikas.destroy', $data->id)}}" class="btn btn-danger btn-sm">Hapus</a>
                                     </td>
                                 </tr>
                                 @endforeach

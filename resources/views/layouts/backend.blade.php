@@ -1,113 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
-<head>
+    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="" />
 
-    <title>SB Admin 2 - Dashboard</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/backend/img/favicon/favicon.ico')}}" />
 
-    <!-- Custom fonts for this template-->
-    <link href="{{asset('assets/backend/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Custom styles for this template-->
-    <link href="{{asset('assets/backend/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{{asset('assets/backend/vendor/fonts/boxicons.css')}}" />
 
-</head>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{asset('assets/backend/vendor/css/core.css')}}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{asset('assets/backend/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{asset('assets/backend/css/demo.css')}}" />
 
-<body id="page-top">
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{asset('assets/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+    <link rel="stylesheet" href="{{asset('assets/backend/vendor/libs/apex-charts/apex-charts.css')}}" />
 
-        <!-- Sidebar -->
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="{{asset('assets/backend/vendor/js/helpers.js')}}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{asset('assets/backend/js/config.js')}}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
         @include('layouts.backend.sidebar')
-        <!-- End of Sidebar -->
+        <!-- / Menu -->
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+          @include('layouts.backend.navbar')
+          <!-- / Navbar -->
 
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                @include('layouts.backend.navbar')
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                @yield('content')
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
+          <!-- Content wrapper -->
+            <div class="content-wrapper pt-4">
+            <!-- Content -->
+            @yield ('content')
+            <!-- / Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                 </div>
+                <div>
+                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                  <a
+                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Documentation</a
+                  >
+
+                  <a
+                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Support</a
+                  >
+                </div>
+              </div>
             </footer>
-            <!-- End of Footer -->
+            <!-- / Footer -->
 
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- / Layout page -->
+      </div>
 
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- / Layout wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
+    <div class="buy-now">
+      <a
+        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+        target="_blank"
+        class="btn btn-danger btn-buy-now"
+        >Upgrade to Pro</a
+      >
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('assets/backend/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('assets/backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{asset('assets/backend/vendor/libs/jquery/jquery.js')}}"></script>
+    <script src="{{asset('assets/backend/vendor/libs/popper/popper.js')}}"></script>
+    <script src="{{asset('assets/backend/vendor/js/bootstrap.js')}}"></script>
+    <script src="{{asset('assets/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{{asset('assets/backend/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{asset('assets/backend/vendor/js/menu.js')}}"></script>
+    <!-- endbuild -->
 
-    <!-- Custom scripts for all pages-->
-    <script src="{{asset('assets/backend/js/sb-admin-2.min.js')}}"></script>
+    <!-- Vendors JS -->
+    <script src="{{asset('assets/backend/vendor/libs/apex-charts/apexcharts.js')}}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{{asset('assets/backend/vendor/chart.js/Chart.min.js')}}"></script>
+    <!-- Main JS -->
+    <script src="{{asset('assets/backend/js/main.js')}}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{asset('assets/backend/js/demo/chart-area-demo.js')}}"></script>
-    <script src="{{asset('assets/backend/js/demo/chart-pie-demo.js')}}"></script>
-    @include('sweetalert::alert')
-    @yield('js')
-    @stack('scripts')
-</body>
+    <!-- Page JS -->
+    <script src="{{asset('assets/backend/js/dashboards-analytics.js')}}"></script>
 
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
 </html>

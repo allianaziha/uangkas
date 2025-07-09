@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-secondary">
+                <div class="card-header bg-primary">
                     Data Siswa
                     <a href="{{ route('backend.siswa.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
                         Tambah

@@ -67,7 +67,7 @@ class transaksikasController extends Controller
         ]);
 
         $transaksi = Transaksikas::findOrFail($id);
-        $transaksi->user_id = $request->user_id;
+         $transaksi->user_id = $request->user_id;
         $transaksi->jenis = $request->jenis;
         $transaksi->jumlah = $request->jumlah;
         $transaksi->keterangan = $request->keterangan;
@@ -76,6 +76,12 @@ class transaksikasController extends Controller
 
         toast('Data berhasil diedit', 'success');
         return redirect()->route('backend.transaksikas.index');
+    }
+
+    public function show($id)
+    {
+        $transaksi = Transaksikas::with('user')->findOrFail($id);
+        return view('backend.transaksikas.show', compact('transaksi'));
     }
 
     public function destroy($id)

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white mb-4">
                     Data Kas Mingguan
                     <a href="{{ route('backend.kas_mingguan.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
                         Tambah
@@ -42,7 +42,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $data->minggu_ke }}</td>
-                                    <td>{{ $data->bulan }}</td>
+                                    <td>{{ \Carbon\Carbon::create()->month($data->bulan)->translatedFormat('F') }}</td>
                                     <td>{{ $data->jumlah }}</td>
                                     <td>{{ $data->tanggal_bayar }}</td>
                                     <td>

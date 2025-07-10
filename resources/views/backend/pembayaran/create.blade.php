@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white mb-4">
                     <h5 class="mb-0">Tambah Pembayaran</h5>
                 </div>
                 <div class="card-body pt-3">

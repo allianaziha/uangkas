@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white mb-4">
                     Data Pembayaran
                     <a href="{{ route('backend.pembayaran.create') }}" class="btn btn-info btn-sm float-end text-white">
                         Tambah

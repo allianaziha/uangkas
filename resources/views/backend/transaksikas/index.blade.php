@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white mb-4">
                     Data Transaksi Kas
                     <a href="{{ route('backend.transaksikas.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
                         Tambah

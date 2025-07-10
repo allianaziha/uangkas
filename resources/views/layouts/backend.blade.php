@@ -41,9 +41,8 @@
     <link rel="stylesheet" href="{{asset('assets/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
     <link rel="stylesheet" href="{{asset('assets/backend/vendor/libs/apex-charts/apex-charts.css')}}" />
-
-    <!-- Page CSS -->
-
+    
+     <link href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
     <!-- Helpers -->
     <script src="{{asset('assets/backend/vendor/js/helpers.js')}}"></script>
 

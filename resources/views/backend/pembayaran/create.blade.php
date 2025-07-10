@@ -6,23 +6,26 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Tambah Transaksi Kas</h5>
+                    <h5 class="mb-0">Tambah Pembayaran</h5>
                 </div>
                 <div class="card-body pt-3">
-                    <form action="{{ route('backend.transaksikas.store') }}" method="POST">
+                    <form action="{{ route('backend.pembayaran.store') }}" method="POST">
                         @csrf
 
-                        {{-- Jenis Transaksi --}}
+                        {{-- User --}}
                         <div class="form-floating mb-3">
-                            <select name="jenis" class="form-select @error('jenis') is-invalid @enderror">
-                                <option value="">-- Pilih Jenis --</option>
-                                <option value="pemasukkan">Pemasukkan</option>
-                                <option value="pengeluaran">Pengeluaran</option>
+                            <select name="user_id" class="form-select @error('user_id') is-invalid @enderror">
+                                <option value="">-- Pilih Siswa --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
                             </select>
-                            @error('jenis')
+                            @error('user_id')
                                 <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                             @enderror
-                            <label>Jenis Transaksi</label>
+                            <label>Nama Siswa</label>
                         </div>
 
                         {{-- Jumlah --}}
@@ -31,25 +34,16 @@
                             @error('jumlah')
                                 <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                             @enderror
-                            <label>Jumlah</label>
-                        </div>
-
-                        {{-- Keterangan --}}
-                        <div class="form-floating mb-3">
-                            <input type="text" name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" placeholder="Keterangan transaksi" value="{{ old('keterangan') }}">
-                            @error('keterangan')
-                                <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
-                            @enderror
-                            <label>Keterangan</label>
+                            <label>Jumlah Pembayaran</label>
                         </div>
 
                         {{-- Tanggal --}}
                         <div class="form-floating mb-3">
-                            <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" placeholder="Tanggal" value="{{ old('tanggal') }}">
+                            <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ old('tanggal') }}">
                             @error('tanggal')
                                 <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                             @enderror
-                            <label>Tanggal</label>
+                            <label>Tanggal Pembayaran</label>
                         </div>
 
                         {{-- Tombol --}}

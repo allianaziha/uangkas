@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-secondary">
+                <div class="card-header bg-primary text-white">
                     Data Kas Mingguan
                     <a href="{{ route('backend.kas_mingguan.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
                         Tambah
@@ -34,18 +34,25 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data->user->name }}</td>
-                                    <td>{{ $data->status }}</td>
+                                    <td>
+                                        @if ($data->status == 'lunas')
+                                            <span class="badge bg-success">Lunas</span>
+                                        @else
+                                            <span class="badge bg-warning text-dark">Belum</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $data->minggu_ke }}</td>
                                     <td>{{ $data->bulan }}</td>
                                     <td>{{ $data->jumlah }}</td>
                                     <td>{{ $data->tanggal_bayar }}</td>
                                     <td>
-                                        <a href="{{ route('backend.kas_mingguan.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a> |
+                                        <a href="{{ route('backend.kas_mingguan.show', $data->id) }}" class="btn btn-success btn-sm">Detail</a> |
                                         <a href="{{ route('backend.kas_mingguan.destroy', $data->id) }}" class="btn btn-danger btn-sm" data-confirm-delete="true">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
                     </div>
                 </div>

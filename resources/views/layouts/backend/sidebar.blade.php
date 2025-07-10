@@ -65,39 +65,46 @@
           </div>
 
           <div class="menu-inner-shadow"></div>
-
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+            <li class="menu-item {{ request()->is('admin') ? 'active' : '' }}">
+              <a href="{{ url('admin') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
+                <div>Dashboard</div>
               </a>
             </li>
 
             <!-- Siswa -->
-    <li class="menu-item">
-      <a href="{{ route('backend.siswa.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user"></i>
-        <div>Siswa</div>
-      </a>
-    </li>
+            <li class="menu-item {{ request()->routeIs('backend.siswa.*') ? 'active' : '' }}">
+              <a href="{{ route('backend.siswa.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div>Siswa</div>
+              </a>
+            </li>
 
-    <!-- Transaksi Kas -->
-    <li class="menu-item">
-      <a href="{{ route('backend.transaksikas.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-transfer"></i>
-        <div>Transaksi Kas</div>
-      </a>
-    </li>
+            <!-- Transaksi Kas -->
+            <li class="menu-item {{ request()->routeIs('backend.transaksikas.*') ? 'active' : '' }}">
+              <a href="{{ route('backend.transaksikas.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-transfer"></i>
+                <div>Transaksi Kas</div>
+              </a>
+            </li>
 
-    <!-- Kas Mingguan -->
-    <li class="menu-item">
-      <a href="{{ route('backend.kas_mingguan.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-calendar-week"></i>
-        <div>Kas Mingguan</div>
-      </a>
-    </li>
-            
+            <!-- Pembayaran -->
+            <li class="menu-item {{ request()->routeIs('backend.pembayaran.*') ? 'active' : '' }}">
+              <a href="{{ route('backend.pembayaran.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
+                <div>Pembayaran</div>
+              </a>
+            </li>
+
+            <!-- Kas Mingguan -->
+            <li class="menu-item {{ request()->routeIs('backend.kas_mingguan.*') ? 'active' : '' }}">
+              <a href="{{ route('backend.kas_mingguan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-calendar-week"></i>
+                <div>Kas Mingguan</div>
+              </a>
+            </li>
           </ul>
+
         </aside>

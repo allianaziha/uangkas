@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Alert;
 
 class UserController extends Controller
@@ -13,7 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::where('isAdmin', '!=', 1)->get();
+        $title = 'Hapus Data Akun!';
+        $text  = "Apakah Anda Yakin??";
+        confirmDelete($title, $text);
+
         return view('backend.siswa.index', compact('users'));
     }
 
@@ -36,33 +40,56 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('backend.siswa.index')->with('success', 'User berhasil ditambahkan');
+        toast('Data berhasil ditambahkan', 'success');
+        return redirect()->route('backend.siswa.index');
+
     }
 
-    public function edit(User $user)
+    public function show()
     {
-        return view('backend.siswa.edit', compact('user'));
+
     }
 
-    public function update(Request $request, User $user)
+    public function edit($id)
     {
+        $siswa = User::findOrFail($id);
+        return view('backend.siswa.edit', compact('siswa'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+
         $request->validate([
-            'name'  => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'name'     => 'required|string',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6|confirmed',
         ]);
 
-        $user->update([
+        $data = [
             'name'  => $request->name,
             'email' => $request->email,
-        ]);
+        ];
 
-        return redirect()->route('backend.siswa.index')->with('success', 'User berhasil diupdate');
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
+
+        toast('Data berhasil diedit', 'success');
+        return redirect()->route('backend.siswa.index');
+
     }
 
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('backend.siswa.index')->with('success', 'User berhasil dihapus');
+        toast('Data berhasil dihapus', 'success');
+        return redirect()->route('backend.siswa.index');
     }
 
 }

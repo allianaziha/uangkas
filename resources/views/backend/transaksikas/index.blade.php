@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-primary text-white">
                     Data Transaksi Kas
                     <a href="{{ route('backend.transaksikas.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
                         Tambah
@@ -20,7 +20,6 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
                                     <th>Jenis</th>
                                     <th>Jumlah</th>
                                     <th>Keterangan</th>
@@ -32,14 +31,19 @@
                                 @foreach ($transaksikas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->user->name }}</td>
                                     <td>{{ ucfirst($data->jenis) }}</td>
                                     <td>{{ $data->jumlah }}</td>
                                     <td>{{ $data->keterangan }}</td>
                                     <td>{{ $data->tanggal }}</td>
                                     <td>
-                                        <a href="{{ route('backend.transaksikas.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a> |
-                                        <a href="{{ route('backend.transaksikas.destroy', $data->id)}}" class="btn btn-danger btn-sm">Hapus</a>
+                                        <a href="{{ route('backend.transaksikas.edit', $data->id) }}" class="btn btn-warning btn-sm">Ubah</a> |
+                                          <form action="{{ route('backend.transaksikas.destroy', $data->id) }}" method="post" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <i class="bi bi-trash">Hapus</i>
+                                                </button>
+                                            </form>
                                     </td>
                                 </tr>
                                 @endforeach

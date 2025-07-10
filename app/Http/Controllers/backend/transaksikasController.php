@@ -5,14 +5,13 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaksikas;
-use App\Models\User;
 use Alert;
 
 class transaksikasController extends Controller
 {
     public function index()
     {
-        $transaksikas = Transaksikas::with('user')->latest()->get();
+        $transaksikas = Transaksikas::latest()->get();
 
         $title = 'Delete Transaksi Kas!';
         $text = 'Are you sure you want to delete?';
@@ -23,14 +22,12 @@ class transaksikasController extends Controller
 
     public function create()
     {
-        $users = User::all();
-        return view('backend.transaksikas.create', compact('users'));
+        return view('backend.transaksikas.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'jenis' => 'required|in:pemasukkan,pengeluaran',
             'jumlah' => 'required|integer',
             'keterangan' => 'required|string',
@@ -38,7 +35,6 @@ class transaksikasController extends Controller
         ]);
 
         $transaksi = new Transaksikas();
-        $transaksi->user_id = $request->user_id;
         $transaksi->jenis = $request->jenis;
         $transaksi->jumlah = $request->jumlah;
         $transaksi->keterangan = $request->keterangan;
@@ -49,17 +45,21 @@ class transaksikasController extends Controller
         return redirect()->route('backend.transaksikas.index');
     }
 
+    public function show($id)
+    {
+        $transaksi = Transaksikas::findOrFail($id);
+        return view('backend.transaksikas.show', compact('transaksi'));
+    }
+
     public function edit($id)
     {
         $transaksi = Transaksikas::findOrFail($id);
-        $users = User::all();
-        return view('backend.transaksikas.edit', compact('transaksi', 'users'));
+        return view('backend.transaksikas.edit', compact('transaksi'));
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'jenis' => 'required|in:pemasukkan,pengeluaran',
             'jumlah' => 'required|integer',
             'keterangan' => 'required|string',
@@ -67,7 +67,6 @@ class transaksikasController extends Controller
         ]);
 
         $transaksi = Transaksikas::findOrFail($id);
-         $transaksi->user_id = $request->user_id;
         $transaksi->jenis = $request->jenis;
         $transaksi->jumlah = $request->jumlah;
         $transaksi->keterangan = $request->keterangan;
@@ -78,13 +77,7 @@ class transaksikasController extends Controller
         return redirect()->route('backend.transaksikas.index');
     }
 
-    public function show($id)
-    {
-        $transaksi = Transaksikas::with('user')->findOrFail($id);
-        return view('backend.transaksikas.show', compact('transaksi'));
-    }
-
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $transaksi = Transaksikas::findOrFail($id);
         $transaksi->delete();

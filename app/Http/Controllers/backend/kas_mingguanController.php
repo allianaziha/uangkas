@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\kas_mingguan;
 use App\Models\User;
+use App\Models\Pembayaran; 
 use Alert;
 
 class kas_mingguanController extends Controller
@@ -21,65 +22,20 @@ class kas_mingguanController extends Controller
         return view('backend.kas_mingguan.index', compact('kas_mingguan'));
     }
 
-    public function create()
+    public function show($id)
     {
-        $users = User::all();
-        return view('backend.kas_mingguan.create', compact('users'));
-    }
+        $kas = kas_mingguan::with('user')->findOrFail($id);
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'status' => 'required|in:lunas,belum',
-            'minggu_ke' => 'required|integer',
-            'bulan' => 'required|integer',
-            'jumlah' => 'required|integer',
-            'tanggal_bayar' => 'required|date',
-        ]);
+        // Cari semua pembayaran di minggu & bulan ini
+        $riwayat_pembayaran = Pembayaran::where('user_id', $kas->user_id)
+            ->whereMonth('tanggal', $kas->bulan)
+            ->whereYear('tanggal', date('Y', strtotime($kas->tanggal_bayar)))
+            ->get()
+            ->filter(function ($item) use ($kas) {
+                return ceil(date('j', strtotime($item->tanggal)) / 7) == $kas->minggu_ke;
+            });
 
-        $kas = new kas_mingguan();
-        $kas->user_id = $request->user_id;
-        $kas->status = $request->status;
-        $kas->minggu_ke = $request->minggu_ke;
-        $kas->bulan = $request->bulan;
-        $kas->jumlah = $request->jumlah;
-        $kas->tanggal_bayar = $request->tanggal_bayar;
-        $kas->save();
-
-        toast('Data berhasil disimpan', 'success');
-        return redirect()->route('backend.kas_mingguan.index');
-    }
-
-    public function edit($id)
-    {
-        $kas = kas_mingguan::findOrFail($id);
-        $users = User::all();
-        return view('backend.kas_mingguan.edit', compact('kas', 'users'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'status' => 'required|in:lunas,belum',
-            'minggu_ke' => 'required|integer',
-            'bulan' => 'required|integer',
-            'jumlah' => 'required|integer',
-            'tanggal_bayar' => 'required|date',
-        ]);
-
-        $kas = kas_mingguan::findOrFail($id);
-        $kas->user_id = $request->user_id;
-        $kas->status = $request->status;
-        $kas->minggu_ke = $request->minggu_ke;
-        $kas->bulan = $request->bulan;
-        $kas->jumlah = $request->jumlah;
-        $kas->tanggal_bayar = $request->tanggal_bayar;
-        $kas->save();
-
-        toast('Data berhasil diedit', 'success');
-        return redirect()->route('backend.kas_mingguan.index');
+        return view('backend.kas_mingguan.show', compact('kas', 'riwayat_pembayaran'));
     }
 
     public function destroy($id)

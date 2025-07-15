@@ -1,8 +1,9 @@
 <?php
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\kas_mingguan;
 use Illuminate\Http\Request;
 use Alert;
 
@@ -13,13 +14,40 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('isAdmin', '!=', 1)->get();
+        $users = User::all();
+
+        foreach ($users as $user) {
+            // Misalnya semester 1: bulan 1–6
+            $jumlahBayar = kas_mingguan::where('user_id', $user->id)
+                ->whereBetween('bulan', [1, 12])
+                ->where('status', 'lunas')
+                ->count();
+
+            $totalMinggu = 12 * 4; // misalnya 12 bulan × 4 minggu = 48
+            $persen      = $totalMinggu > 0 ? ($jumlahBayar / $totalMinggu) * 100 : 0;
+
+            if ($jumlahBayar == 0) {
+                $status = 'Tidak Pernah';
+            } elseif ($persen >= 60) {
+                $status = 'Rajin';
+            } elseif ($persen >= 20) {
+                $status = 'Kadang-kadang';
+            } else {
+                $status = 'Jarang';
+            }
+
+            // Tambah properti sementara ke objek user
+            $user->status_semester = $status;
+        }
+
+
         $title = 'Hapus Data Akun!';
         $text  = "Apakah Anda Yakin??";
         confirmDelete($title, $text);
 
-        return view('backend.siswa.index', compact('users'));
+        return view('backend.siswa.index', compact('users', 'persen'));
     }
+
 
     public function create()
     {
@@ -42,7 +70,6 @@ class UserController extends Controller
 
         toast('Data berhasil ditambahkan', 'success');
         return redirect()->route('backend.siswa.index');
-
     }
 
     public function show()
@@ -55,7 +82,6 @@ class UserController extends Controller
         $siswa = User::findOrFail($id);
         return view('backend.siswa.edit', compact('siswa'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -81,7 +107,6 @@ class UserController extends Controller
 
         toast('Data berhasil diedit', 'success');
         return redirect()->route('backend.siswa.index');
-
     }
 
     public function destroy(string $id)
@@ -91,5 +116,4 @@ class UserController extends Controller
         toast('Data berhasil dihapus', 'success');
         return redirect()->route('backend.siswa.index');
     }
-
 }

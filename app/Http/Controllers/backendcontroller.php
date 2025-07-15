@@ -6,25 +6,60 @@ use Illuminate\Http\Request;
 use App\Models\Pembayaran;
 use App\Models\Transaksikas;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
-class backendcontroller extends Controller
+class backendController extends Controller
 {
-     public function index ()
+    public function index()
     {
-       $totalUser = User::count();
+        // Total akun
+        $totalUser = User::count();
 
-        $totalPemasukkan   = TransaksiKas::where('jenis', 'pemasukkan')->sum('jumlah');
-        $totalPengeluaran = TransaksiKas::where('jenis', 'pengeluaran')->sum('jumlah');
+        // Total pemasukan & pengeluaran dari transaksi kas
+        $totalPemasukkan = Transaksikas::where('jenis', 'pemasukkan')->sum('jumlah');
+        $totalPengeluaran = Transaksikas::where('jenis', 'pengeluaran')->sum('jumlah');
 
+        // Total pembayaran siswa
         $totalPembayaran = Pembayaran::sum('jumlah');
-        $saldoKas        = $totalPembayaran + $totalPemasukkan - $totalPengeluaran;
+
+        // Saldo akhir
+        $saldoKas = $totalPembayaran + $totalPemasukkan - $totalPengeluaran;
+
+        // Pemasukan per bulan dari TransaksiKas
+        $pemasukanPerBulan = Transaksikas::select(
+                DB::raw('MONTH(tanggal) as bulan'),
+                DB::raw('SUM(jumlah) as total')
+            )
+            ->where('jenis', 'pemasukkan')
+            ->groupBy(DB::raw('MONTH(tanggal)'))
+            ->pluck('total', 'bulan');
+
+        // Pemasukan per bulan dari Pembayaran
+        $pembayaranPerBulan = Pembayaran::select(
+                DB::raw('MONTH(tanggal) as bulan'),
+                DB::raw('SUM(jumlah) as total')
+            )
+            ->groupBy(DB::raw('MONTH(tanggal)'))
+            ->pluck('total', 'bulan');
+
+        // Pengeluaran per kategori
+        $pengeluaranKategori = Transaksikas::select(
+                'keterangan',
+                DB::raw('SUM(jumlah) as total')
+            )
+            ->where('jenis', 'pengeluaran')
+            ->groupBy('keterangan')
+            ->pluck('total', 'keterangan');
 
         return view('backend.index', compact(
             'totalUser',
             'totalPemasukkan',
             'totalPengeluaran',
             'totalPembayaran',
-            'saldoKas'
+            'saldoKas',
+            'pemasukanPerBulan',
+            'pembayaranPerBulan',
+            'pengeluaranKategori'
         ));
     }
 }

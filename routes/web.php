@@ -8,10 +8,22 @@ use App\Http\Controllers\Backend\transaksikasController;
 use App\Http\Controllers\Backend\Kas_mingguanController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PembayaranController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Backend\ExportController;
+use App\Http\Controllers\FrontendController;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/profil', function() {
+    $user = Auth::user();
+    $totalBayar = \App\Models\Pembayaran::where('user_id', $user->id)->sum('jumlah');
+    return view('profil', compact('user', 'totalBayar'));
+})->middleware('auth')->name('profil');
+
+Route::get('/', [FrontendController::class, 'index']);    
 
 Auth::routes();
 
@@ -24,5 +36,5 @@ Route::group(['prefix'=>'admin','as' => 'backend.','middleware' => ['auth', Admi
     Route::resource('/transaksikas', transaksikasController::class);
     Route::resource('/siswa', UserController::class);
     Route::resource('/pembayaran', PembayaranController::class);
-    
+    Route::get('/export', [ExportController::class, 'index'])->name('export.index');
 });

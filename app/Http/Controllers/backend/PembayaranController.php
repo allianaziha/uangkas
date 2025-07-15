@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,19 +36,30 @@ class PembayaranController extends Controller
             'tanggal'   => 'required|date',
         ]);
 
-        // Simpan ke tabel pembayaran
+        // Hitung minggu_ke dan bulan
+        $tanggal = strtotime($validated['tanggal']);
+        $minggu_ke = ceil(date('j', $tanggal) / 7);
+        $bulan = date('n', $tanggal);
+
+        // Cek apakah sudah ada data kas mingguan minggu ini
+        $kas_mingguan = kas_mingguan::where('user_id', $validated['user_id'])
+            ->where('minggu_ke', $minggu_ke)
+            ->where('bulan', $bulan)
+            ->first();
+
+        if ($kas_mingguan && $kas_mingguan->status == 'lunas') {
+            toast('Uang kas minggu ini sudah lunas', 'warning');
+            return redirect()->route('backend.pembayaran.create');
+        }
+
+        // Simpan pembayaran
         $pembayaran = Pembayaran::create([
             'user_id' => $validated['user_id'],
             'jumlah'  => $validated['jumlah'],
             'tanggal' => $validated['tanggal'],
         ]);
 
-        // Hitung minggu_ke dan bulan
-        $tanggal = strtotime($validated['tanggal']);
-        $minggu_ke = ceil(date('j', $tanggal) / 7);
-        $bulan = date('n', $tanggal);
-
-        // Total pembayaran di minggu itu oleh user tsb
+        // Hitung total pembayaran di minggu itu
         $total_mingguan = Pembayaran::where('user_id', $validated['user_id'])
             ->whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', date('Y', $tanggal))
@@ -58,17 +69,12 @@ class PembayaranController extends Controller
             })
             ->sum('jumlah');
 
-        // Cek status: lunas jika total pembayaran minggu itu >= 10000
+        // Cek status: lunas jika total >= 10000
         $status = $total_mingguan >= 10000 ? 'lunas' : 'belum';
 
-        // Cek apakah sudah ada data minggu ke sekian
-        $kas = kas_mingguan::where('user_id', $validated['user_id'])
-            ->where('minggu_ke', $minggu_ke)
-            ->where('bulan', $bulan)
-            ->first();
-
-        if ($kas) {
-            $kas->update([
+        // Update atau buat kas mingguan
+        if ($kas_mingguan) {
+            $kas_mingguan->update([
                 'jumlah'        => $total_mingguan,
                 'status'        => $status,
                 'tanggal_bayar' => $validated['tanggal'],
@@ -87,7 +93,6 @@ class PembayaranController extends Controller
         toast('Pembayaran dan Kas Mingguan berhasil disimpan', 'success');
         return redirect()->route('backend.pembayaran.index');
     }
-
 
     public function edit($id)
     {

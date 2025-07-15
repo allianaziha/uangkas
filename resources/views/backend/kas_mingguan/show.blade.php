@@ -6,8 +6,8 @@
         <div class="col">
             <div class="card shadow">
                 {{-- Header --}}
-                <div class="card-header bg-primary text-white mb-4">
-                    <h5 class="mb-0">Detail Kas Mingguan</h5>
+                <div class="card-header text-dark mb-4" style="background-color:rgb(111, 190, 255);">
+                    <h5 class="mb-0">DETAIL KAS </h5>
                 </div>
 
                 <div class="card-body">

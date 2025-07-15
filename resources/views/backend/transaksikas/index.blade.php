@@ -8,36 +8,47 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header bg-primary text-white mb-4">
-                    Data Transaksi Kas
-                    <a href="{{ route('backend.transaksikas.create') }}" class="btn btn-info btn-sm" style="color:white; float: right;">
+                <div class="card-header text-dark">
+                    DATA TRANSAKSI KAS
+                    <a href="{{ route('backend.transaksikas.create') }}" class="btn btn-primary btn-sm" style="color:white; float: right;">
                         Tambah
                     </a>
                 </div>
                 <div class="card-body">
-                    <div class="table table-responsive">
                         <table class="table" id="dataTransaksiKas">
-                            <thead>
+                            <thead class="bg-info text-white">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Jenis</th>
-                                    <th>Jumlah</th>
-                                    <th>Keterangan</th>
-                                    <th>Tanggal</th>
-                                    <th>Aksi</th>
+                                    <th class="text-white">#</th>
+                                    <th class="text-white">Jenis</th>
+                                    <th class="text-white">Jumlah</th>
+                                    <th class="text-white">Keterangan</th>
+                                    <th class="text-white">Tanggal</th>
+                                    <th class="text-white">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($transaksikas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ ucfirst($data->jenis) }}</td>
-                                    <td>{{ $data->jumlah }}</td>
+                                    <td>
+                                        @if ($data->jenis == 'pengeluaran')
+                                            <span class="badge bg-danger">pengeluaran</span>
+                                        @else
+                                            <span class="badge bg-success text-dark">pemasukan</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($data->jenis == 'pengeluaran')
+                                            <span >- {{ number_format($data->jumlah, 0, ',', '.') }}</span>
+                                        @else
+                                            <span >+ {{ number_format($data->jumlah, 0, ',', '.') }}</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $data->keterangan }}</td>
                                     <td>{{ $data->tanggal }}</td>
                                     <td>
-                                        <a href="{{ route('backend.transaksikas.edit', $data->id) }}" class="btn btn-warning btn-sm">Ubah</a> |
-                                          <form action="{{ route('backend.transaksikas.destroy', $data->id) }}" method="post" class="d-inline">
+                                        <a href="{{ route('backend.transaksikas.edit', $data->id) }}" class="btn btn-warning btn-sm">Ubah</a> 
+                                            <form action="{{ route('backend.transaksikas.destroy', $data->id) }}" method="post" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,13 +11,19 @@ use Alert;
 
 class kas_mingguanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kas_mingguan = kas_mingguan::with('user')->latest()->get();
+        $query = kas_mingguan::with('user')->latest();
 
-        $title = 'Delete Kas Mingguan!';
-        $text = 'Are you sure you want to delete?';
-        confirmDelete($title, $text);
+        if ($request->bulan) {
+            $query->where('bulan', $request->bulan);
+        }
+
+        if ($request->minggu_ke) {
+            $query->where('minggu_ke', $request->minggu_ke);
+        }
+
+        $kas_mingguan = $query->get();
 
         return view('backend.kas_mingguan.index', compact('kas_mingguan'));
     }
@@ -46,4 +52,5 @@ class kas_mingguanController extends Controller
         toast('Data berhasil dihapus', 'success');
         return redirect()->route('backend.kas_mingguan.index');
     }
+
 }

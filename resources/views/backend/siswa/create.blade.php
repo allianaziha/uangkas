@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white mb-4">
-                    <h5 class="mb-0">Tambah Akun Siswa</h5>
+                <div class="card-header text-dark">
+                    <h5 class="mb-0">TAMBAH AKUN SISWA</h5>
                 </div>
                 <div class="card-body pt-3">
                     <form action="{{ route('backend.siswa.store') }}" method="POST">

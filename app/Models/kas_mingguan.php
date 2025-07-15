@@ -9,6 +9,6 @@ class kas_mingguan extends Model
     public $fillable = ['user_id', 'status', 'minggu_ke', 'bulan', 'jumlah', 'tanggal_bayar'];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

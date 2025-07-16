@@ -6,8 +6,8 @@
   <title>Profil Saya</title>
 
   <!-- Favicons -->
-  <link href="{{asset('assets/frontend/img/favicon.png')}}" rel="icon">
-  <link href="{{asset('assets/frontend/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link href="{{ asset('assets/frontend/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('assets/frontend/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -15,13 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{asset('assets/frontend/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/frontend/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/frontend/vendor/aos/aos.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/frontend/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/frontend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/frontend/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/frontend/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/frontend/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="{{asset('assets/frontend/css/main.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/frontend/css/main.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -56,41 +56,51 @@
   </header>
   <!-- /HEADER -->
 
- <main class="main">
-  <section class="section kas-background py-5">
-    <div class="container">
-      <div class="row justify-content-center align-items-center g-4">
-        <!-- Kolom Biodata -->
-        <div class="col-lg-6">
-          <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-              <div class="mb-4">
-                <p class="mb-1 text-muted">Nama</p>
-                <h5 class="mb-0">{{ $user->name }}</h5>
-              </div>
-              <div class="mb-4">
-                <p class="mb-1 text-muted">Email</p>
-                <h5 class="mb-0">{{ $user->email }}</h5>
-              </div>
-              <hr>
-              <div class="mt-4 text-center">
-                <h6 class="mb-2">Saldo Uang Masuk</h6>
-                <p class="fs-4 fw-semibold text-success">
-                  Rp {{ number_format($totalBayar, 0, ',', '.') }}
-                </p>
+  <main class="main">
+    <section class="section kas-background py-5">
+      <div class="container">
+        <div class="row justify-content-center align-items-center g-4">
+          
+          <!-- Kolom Biodata -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body text-center">
+                
+                <!-- Avatar -->
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=A8E6CF&color=fff&size=100"
+                     alt="Avatar"
+                     class="rounded-circle mb-3 shadow border border-3 border-success">
+
+                <!-- Nama -->
+                <h5 class="mb-1">{{ $user->name }}</h5>
+                
+                <!-- Email -->
+                <p class="text-muted">{{ $user->email }}</p>
+                
+                <hr>
+
+                <!-- Saldo -->
+                <div class="mt-3">
+                  <h6 class="mb-2">Saldo Uang Masuk</h6>
+                  <p class="fs-4 fw-semibold text-success">
+                    Rp {{ number_format($totalBayar, 0, ',', '.') }}
+                  </p>
+                </div>
+                
+                <!-- Tombol Edit Profil (opsional) -->
+                {{-- <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary btn-sm mt-3">Edit Profil</a> --}}
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Kolom Gambar -->
-        <div class="col-lg-6 text-center">
-          <img src="{{ asset('assets/frontend/img/hero.png') }}" class="img-fluid rounded" alt="Gambar Profil">
+          <!-- Kolom Gambar -->
+          <div class="col-lg-6 text-center">
+            <img src="{{ asset('assets/frontend/img/hero.png') }}" class="img-fluid rounded" alt="Gambar Profil">
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 
   <footer id="footer" class="footer light-background">
     <div class="container">
@@ -104,10 +114,10 @@
   </footer>
 
   <!-- Vendor JS Files -->
-  <script src="{{asset('assets/frontend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-  <script src="{{asset('assets/frontend/vendor/aos/aos.js')}}"></script>
-  <script src="{{asset('assets/frontend/vendor/glightbox/js/glightbox.min.js')}}"></script>
-  <script src="{{asset('assets/frontend/js/main.js')}}"></script>
+  <script src="{{ asset('assets/frontend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/frontend/vendor/aos/aos.js') }}"></script>
+  <script src="{{ asset('assets/frontend/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
     
 </body>
 </html>

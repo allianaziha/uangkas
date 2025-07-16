@@ -2,8 +2,13 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
         <div class="col-md-6">
+
+            <!-- Logo -->
+            <div class="text-center mb-4">
+            </div>
+
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
                     <h4>{{ __('Login') }}</h4>
